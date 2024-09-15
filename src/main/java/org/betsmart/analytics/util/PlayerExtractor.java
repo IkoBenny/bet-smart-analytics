@@ -1,5 +1,7 @@
 package org.betsmart.analytics.util;
 
+import java.io.File;
+
 import org.betsmart.analytics.entity.Player;
 import org.betsmart.analytics.repository.PlayerRepositoryImpl;
 
@@ -25,8 +27,18 @@ public class PlayerExtractor {
 
 		String name = values[0];
 		String[] names = name.split(" ");
-		String first = names[0];
-		String last = names[1];
+	
+		String first;
+		String last = null;
+		
+		if (names.length == 2) {
+			first = names[0];
+			last = names[1];
+		}
+		
+		else {
+			first = names[0];
+		}
 
 		String sYear = values[1];
 		String eYear = values[2];
@@ -40,6 +52,11 @@ public class PlayerExtractor {
 
 		player = new Player();
 		player.setfName(first);
+		
+		if (last == null) {
+			player.setlName(null);
+		}
+		
 		player.setlName(last);
 		player.setsYear(sYear);
 		player.seteYear(eYear);
@@ -60,8 +77,27 @@ public class PlayerExtractor {
 	}
 
 	public static void main(String[] args) {
-        FileTraverser travel = new FileTraverser("./players/A/a.txt");
-        travel.traverse();
+		String path = "./players";
+		File directory = new File(path); 
+		FileTraverser traveler = new FileTraverser(null);
+		
+		for (String directoryName : directory.list()) {
+			String letter = path + "/" + directoryName;
+			File letterDirectory = new File(letter);
+			//System.out.println(letterDirectory.getAbsolutePath());
+			
+			File file = new File(letterDirectory.getPath());
+			String[] playerFile = file.list();
+			File actualFile = new File(letterDirectory.getPath() + "/" + playerFile[0]);
+			//System.out.println(playerFile[0]);
+			traveler.setFile(actualFile);
+			traveler.traverse();
+		}
+		
+
+		
+        //FileTraverser travel = new FileTraverser("./players/A/a.txt");
+        //travel.traverse();
 	}
 
 	public Player getPlayer() {

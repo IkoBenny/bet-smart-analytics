@@ -5,15 +5,14 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class FileTraverser {
-	String path;
+	File file;
 
-	public FileTraverser(String path) {
+	public FileTraverser(File file) {
 		super();
-		this.path = path;
+		this.file = file;
 	}
 
 	public void traverse() {
-		File file = new File(path);
 		PlayerExtractor csv = new PlayerExtractor();
 		try (Scanner in = new Scanner(file)) {
 			// skip first line
@@ -26,7 +25,10 @@ public class FileTraverser {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
 	}
 
+	public void setFile(File file) {
+		this.file = file;
+	}
+	
 }
