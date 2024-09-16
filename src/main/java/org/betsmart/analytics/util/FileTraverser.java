@@ -14,7 +14,7 @@ public class FileTraverser {
 
 	public void traverse() {
 		File file = new File(path);
-		PlayerExtractor csv = new PlayerExtractor();
+		TeamExtractor csv = new TeamExtractor();
 		try (Scanner in = new Scanner(file)) {
 			// skip first line
 			in.nextLine();
